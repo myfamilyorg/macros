@@ -146,6 +146,7 @@ macro_rules! writef {
     }};
 }
 
+/*
 #[macro_export]
 macro_rules! format {
         ($fmt:expr) => {{
@@ -159,6 +160,7 @@ macro_rules! format {
                 }
         }};
 }
+*/
 
 #[macro_export]
 macro_rules! println {
@@ -166,16 +168,19 @@ macro_rules! println {
         println!("{}", $fmt)
     }};
     ($fmt:expr, $($t:expr),*) => {{
-        match format!($fmt, $($t),*) {
-            Ok(line) => {
-                use ffi::write;
+        let mut formatter = Formatter::new();
+
+        match writef!(&mut formatter, $fmt, $($t),*) {
+            Ok(_) => {
+                let s = formatter.to_str();
                 #[allow(unused_unsafe)]
                 unsafe {
-                        write(2, line.as_ptr(), line.len());
-                        write(2, "\n".as_ptr(), 1);
+                        ffi::write(2, s.as_ptr(), s.len());
+                        ffi::write(2, "\n".as_ptr(), 1);
                 }
+                Ok(())
             },
-            Err(_e) => {},
+            Err(e) => Err(e),
         }
     }};
 }

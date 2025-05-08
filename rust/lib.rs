@@ -134,7 +134,7 @@ macro_rules! writef {
             }
         )*
         if cur < fmt_str.len() {
-            let bytes = &fmt_bytes[cur..(fmt_str.len()-cur)];
+            let bytes = &fmt_bytes[cur..fmt_str.len()];
             #[allow(unused_unsafe)]
             let s = unsafe { from_utf8_unchecked(bytes) };
             match $f.append(s) {

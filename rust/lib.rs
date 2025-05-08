@@ -121,7 +121,7 @@ macro_rules! writef {
                         }
                     }
                     cur = index + 2;
-                    match $t.format($f) {
+                    match $t.write_str($f) {
                         Ok(_) => {},
                         Err(e) => err = e,
                     }

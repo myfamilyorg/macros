@@ -103,8 +103,6 @@ macro_rules! writef {
     }};
     ($f:expr, $fmt:expr, $($t:expr),*) => {{
         use core::str::from_utf8_unchecked;
-        unsafe { ffi::write(2, "a\n".as_ptr(), 2); }
-
         let mut err = Error::new(Unknown.code(), || { "Unknown" }, Backtrace::init());
         let fmt_str = $fmt;
         let fmt_bytes = fmt_str.as_bytes();
@@ -113,7 +111,6 @@ macro_rules! writef {
             match fmt_str.findn("{}", cur) {
                 Some(index) => {
                     if index > cur {
-                        unsafe { ffi::write(2, "b\n".as_ptr(), 2); }
                         let bytes = &fmt_bytes[cur..(index-cur)];
                         #[allow(unused_unsafe)]
                         let s = unsafe { from_utf8_unchecked(bytes) };
@@ -123,14 +120,13 @@ macro_rules! writef {
                         }
                     }
 
-                    unsafe { ffi::write(2, "c\n".as_ptr(), 2); }
                     cur = index + 2;
                     match $t.format($f) {
                         Ok(_) => {},
                         Err(e) => err = e,
                     }
                 }
-                None => { unsafe { ffi::write(2, "d\n".as_ptr(), 2); }  },
+                None => {},
             }
         )*
         if cur < fmt_str.len() {

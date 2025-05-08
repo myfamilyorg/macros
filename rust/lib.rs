@@ -2,6 +2,11 @@
 
 pub extern crate ffi;
 
+pub mod prelude {
+    pub use super::ffi;
+    pub use super::{aadd, aload, astore, asub, cas};
+}
+
 #[macro_export]
 macro_rules! aadd {
     ($a:expr, $v:expr) => {{

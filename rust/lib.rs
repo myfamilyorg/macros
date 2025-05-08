@@ -103,6 +103,7 @@ macro_rules! writef {
     }};
     ($f:expr, $fmt:expr, $($t:expr),*) => {{
         use core::str::from_utf8_unchecked;
+        unsafe { ffi::write(2, "x\n".as_ptr(), 2); }
 
         let mut err = Error::new(Unknown.code(), || { "Unknown" }, Backtrace::init());
         let fmt_str = $fmt;

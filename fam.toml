@@ -1,0 +1,4 @@
+[crate]
+	lib = "macros"
+[deps]
+	ffi = { git = "https://github.com/myfamilyorg/ffi" }

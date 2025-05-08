@@ -2,3 +2,4 @@
 	lib = "macros"
 [deps]
 	ffi = { git = "https://github.com/myfamilyorg/ffi" }
+	display = { git = "https://github.com/myfamilyorg/display" }

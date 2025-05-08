@@ -95,3 +95,25 @@ macro_rules! try_box_slice {
         }
     }};
 }
+
+#[macro_export]
+macro_rules! exit {
+    ($fmt:expr) => {{
+        exit!("{}", $fmt);
+    }};
+    ($fmt:expr,  $($t:expr),*) => {{
+        /*
+            print!("Panic[@{}:{}]: ", file!(), line!());
+            println!($fmt, $($t),*);
+            let bt = Backtrace::new();
+            println!("{}", bt);
+        */
+
+        #[allow(unused_unsafe)]
+        unsafe {
+            use ffi::exit;
+            exit(-1);
+        }
+        loop {}
+    }};
+}

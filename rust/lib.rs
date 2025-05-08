@@ -126,6 +126,7 @@ macro_rules! writef {
                         Ok(_) => {},
                         Err(e) => err = e,
                     }
+                    unsafe { ffi::write(2, "y\n".as_ptr(), 2); }
                 }
                 None => {},
             }

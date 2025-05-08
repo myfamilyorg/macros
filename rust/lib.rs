@@ -106,7 +106,7 @@ macro_rules! writef {
 
         let mut err = Error::new(Unknown.code(), || { "Unknown" }, Backtrace::init());
         let fmt_str = $fmt;
-        let fmt_bytes = fmt_str.as_btyes();
+        let fmt_bytes = fmt_str.as_bytes();
         let mut cur = 0;
         $(
             match fmt_str.findn("{}", cur) {

@@ -115,13 +115,13 @@ macro_rules! writef {
                         let bytes = &fmt_bytes[cur..(index-cur)];
                         #[allow(unused_unsafe)]
                         let s = unsafe { from_utf8_unchecked(bytes) };
-                        match $f.write_str(s) {
+                        match $f.append(s) {
                             Ok(_) => {},
                             Err(e) => err = e,
                         }
                     }
                     cur = index + 2;
-                    match $t.write_str($f) {
+                    match $t.append($f) {
                         Ok(_) => {},
                         Err(e) => err = e,
                     }
@@ -133,7 +133,7 @@ macro_rules! writef {
             let bytes = &fmt_bytes[cur..(fmt_str.len()-cur)];
             #[allow(unused_unsafe)]
             let s = unsafe { from_utf8_unchecked(bytes) };
-            match $f.write_str(s) {
+            match $f.append(s) {
                 Ok(_) => {},
                 Err(e) => err = e,
             }

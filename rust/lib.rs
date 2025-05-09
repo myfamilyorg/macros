@@ -123,7 +123,7 @@ macro_rules! writef {
                     }
 
                     unsafe { ffi::write(2, "x\n".as_ptr(), 2); }
-                    cur = index + 2;
+                    cur += index + 2;
                     match $t.format($f) {
                         Ok(_) => {},
                         Err(e) => err = e,

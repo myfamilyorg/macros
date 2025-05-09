@@ -113,7 +113,7 @@ macro_rules! writef {
                 Some(index) => {
                     unsafe { ffi::write(2, "a\n".as_ptr(), 2); }
                     if index > cur {
-                        let bytes = &fmt_bytes[cur..(index+cur)];
+                        let bytes = &fmt_bytes[cur..index];
                         #[allow(unused_unsafe)]
                         let s = unsafe { from_utf8_unchecked(bytes) };
                         match $f.append(s) {

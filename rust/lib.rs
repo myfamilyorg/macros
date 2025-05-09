@@ -108,10 +108,8 @@ macro_rules! writef {
         let fmt_bytes = fmt_str.as_bytes();
         let mut cur = 0;
         $(
-            unsafe { ffi::write(2, "z\n".as_ptr(), 2); }
             match fmt_str.findn("{}", cur) {
                 Some(index) => {
-                    unsafe { ffi::write(2, "a\n".as_ptr(), 2); }
                     if index > cur {
                         let bytes = &fmt_bytes[cur..index];
                         #[allow(unused_unsafe)]
@@ -122,19 +120,16 @@ macro_rules! writef {
                         }
                     }
 
-                    unsafe { ffi::write(2, "f\n".as_ptr(), 2); }
                     cur = index + 2;
                     match $t.format($f) {
                         Ok(_) => {},
                         Err(e) => err = e,
                     }
-                    unsafe { ffi::write(2, "y\n".as_ptr(), 2); }
                 }
-                None => {unsafe { ffi::write(2, "b\n".as_ptr(), 2); }},
+                None => {}
             }
         )*
         if cur < fmt_str.len() {
-            unsafe { ffi::write(2, "c\n".as_ptr(), 2);}
             let bytes = &fmt_bytes[cur..fmt_str.len()];
             #[allow(unused_unsafe)]
             let s = unsafe { from_utf8_unchecked(bytes) };

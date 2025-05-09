@@ -134,6 +134,7 @@ macro_rules! writef {
             }
         )*
         if cur < fmt_str.len() {
+            unsafe { ffi::write(2, "c\n".as_ptr(), 2);}
             let bytes = &fmt_bytes[cur..fmt_str.len()];
             #[allow(unused_unsafe)]
             let s = unsafe { from_utf8_unchecked(bytes) };
